@@ -1,0 +1,35 @@
+server:
+  servlet:
+    contextPath: /parking-lot-service
+  port: 8081
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+fee:
+  # Flat fee structure
+  mall:
+    bikeOrScooter: 10
+    carOrSuv: 20
+    busOrTrucks: 50
+  # Hourly range fees
+  stadium:
+    bike_range_00_04: 30
+    bike_range_04_12: 60
+    bike_range_12_IN: 100
+    car_range_00_04: 60
+    car_range_04_12: 120
+    car_range_12_IN: 200
+  # Hourly range fees
+  airport:
+    bike_range_00_01: 0
+    bike_range_01_08: 40
+    bike_range_08_24: 60
+    bike_range_24_EachDay: 80
+    car_range_00_12: 60
+    car_range_12_24: 80
+    car_range_24_EachDay: 100
+
+
+
