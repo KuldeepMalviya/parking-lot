@@ -1,6 +1,7 @@
 package vehicle.placement.parkinglot.persistence.repository;
 
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import vehicle.placement.parkinglot.model.ParkingReceipt;
@@ -26,6 +27,12 @@ public class ParkingReceiptRepository {
                 .build();
        return toParkingReceipt(parkingReceiptDao.save(receiptEntity));
     }
+
+  public boolean isParkingReceiptGeneration(Long parkingRecordId) {
+    Optional<ParkingReceiptEntity> byParkingRecordId = parkingReceiptDao.findByParkingRecordId(
+        parkingRecordId);
+    return byParkingRecordId.isPresent();
+  }
 
     private ParkingReceipt toParkingReceipt(ParkingReceiptEntity entity) {
         return ParkingReceipt.builder()

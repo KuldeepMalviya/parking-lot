@@ -21,6 +21,7 @@ public final class ParkingPlaceTransformer {
     }
     public static ParkingPlace toParkingPlace(ParkingPlaceEntity placeEntity) {
         return ParkingPlace.builder()
+                .id(placeEntity.getId())
                 .parkingPlaceType(placeEntity.getParkingPlaceType())
                 .twoWheelerCapacity(placeEntity.getTwoWheelerCapacity())
                 .busOrTruckCapacity(placeEntity.getBusOrTrucksCapacity())
@@ -47,7 +48,4 @@ public final class ParkingPlaceTransformer {
     public static List<ParkingPlace> toParkingPlaceList(List<ParkingPlaceEntity> parkingPlaceEntities) {
        return parkingPlaceEntities.stream().map(ParkingPlaceTransformer::toParkingPlace).collect(Collectors.toList());
     }
-
-
-
 }

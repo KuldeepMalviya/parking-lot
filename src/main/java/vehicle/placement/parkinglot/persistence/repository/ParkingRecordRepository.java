@@ -3,6 +3,7 @@ package vehicle.placement.parkinglot.persistence.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import vehicle.placement.parkinglot.exception.ParkingRecordDoesNotExistsException;
 import vehicle.placement.parkinglot.model.ParkingRecord;
 import vehicle.placement.parkinglot.persistence.dao.ParkingRecordDao;
 import vehicle.placement.parkinglot.persistence.entity.ParkingRecordEntity;
@@ -18,6 +19,7 @@ public class ParkingRecordRepository {
     public ParkingRecord AddParkingRecord(ParkingRecord parkingRecord) {
         ParkingRecordEntity recordEntity = ParkingRecordEntity.builder()
                 .parkingPlaceId(parkingRecord.getParkingPlaceId())
+                .parkingPlaceType(parkingRecord.getParkingPlaceType())
                 .parkingSpot(parkingRecord.getParkingSpot())
                 .inTime(parkingRecord.getInTime())
                 .vehicleType(parkingRecord.getVehicleType())
@@ -29,7 +31,7 @@ public class ParkingRecordRepository {
 
     public ParkingRecord updateOutTimeForParkingRecord(Long parkingRecordId) {
         ParkingRecordEntity parkingRecordEntity = parkingRecordDao.findById(parkingRecordId).orElseThrow(() ->
-                new RuntimeException(""));
+                new ParkingRecordDoesNotExistsException("Parking record/ticket-number does not exits"));
         parkingRecordEntity.setOutTime(LocalDateTime.now());
         ParkingRecordEntity updatedEntity = parkingRecordDao.save(parkingRecordEntity);
         return toParkingRecord(updatedEntity);
@@ -39,6 +41,7 @@ public class ParkingRecordRepository {
         return ParkingRecord.builder()
                 .id(parkingRecordEntity.getId())
                 .parkingPlaceId(parkingRecordEntity.getParkingPlaceId())
+                .parkingPlaceType(parkingRecordEntity.getParkingPlaceType())
                 .parkingSpot(parkingRecordEntity.getParkingSpot())
                 .vehicleType(parkingRecordEntity.getVehicleType())
                 .vehicleRegistration(parkingRecordEntity.getVehicleRegistration())

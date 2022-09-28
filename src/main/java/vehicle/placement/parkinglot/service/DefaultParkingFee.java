@@ -11,10 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DefaultParkingFee implements ParkingFeeStrategy {
 
-    private final MallParkingFee mallParkingFee;
-
     @Override
     public BigDecimal getParkingFeeAmount(VehicleType vehicleType, LocalDateTime inTime, LocalDateTime outTime) {
-        return null;
+        return BigDecimal.ZERO;
     }
 }
