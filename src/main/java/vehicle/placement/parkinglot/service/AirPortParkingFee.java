@@ -1,14 +1,13 @@
 package vehicle.placement.parkinglot.service;
 
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import vehicle.placement.parkinglot.config.AirPortFeeStructure;
 import vehicle.placement.parkinglot.model.VehicleType;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Component
 @AllArgsConstructor
@@ -42,17 +41,14 @@ public class AirPortParkingFee implements ParkingFeeStrategy {
     }
 
     private BigDecimal carOrSuv(long hours) {
-        if (hours <= 1) {
-            return airPortFeeStructure.getBike_range_00_01();
-        }
-        if (hours <= 8) {
-            return airPortFeeStructure.getBike_range_01_08();
+        if (hours <= 12) {
+            return airPortFeeStructure.getCar_range_00_12();
         }
         if (hours <= 24) {
-            return airPortFeeStructure.getBike_range_08_24();
+            return airPortFeeStructure.getCar_range_12_24();
         }
         long days = (hours / 24) + 1;
-        return airPortFeeStructure.getBike_range_24_EachDay().multiply(BigDecimal.valueOf(days));
+        return airPortFeeStructure.getCar_range_24_EachDay().multiply(BigDecimal.valueOf(days));
     }
 
     private BigDecimal busOrTrucks(long hours) {

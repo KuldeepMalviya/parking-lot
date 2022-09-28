@@ -1,13 +1,12 @@
 package vehicle.placement.parkinglot.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import vehicle.placement.parkinglot.config.StadiumFeeStructure;
 import vehicle.placement.parkinglot.model.VehicleType;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Component
 @AllArgsConstructor
@@ -32,36 +31,35 @@ public class StadiumParkingFee implements ParkingFeeStrategy {
     }
 
     private BigDecimal twoWheelerFee(long hours) {
-        BigDecimal parkingFee = BigDecimal.ZERO;
         if (hours <= 4) {
-            parkingFee = parkingFee.add(stadiumFeeStructure.getBike_range_00_04());
+            return stadiumFeeStructure.getBike_range_00_04();
         }
         if (hours <= 12) {
-            parkingFee = parkingFee.add(stadiumFeeStructure.getBike_range_04_12());
+            return stadiumFeeStructure.getBike_range_00_04()
+                .add(stadiumFeeStructure.getBike_range_04_12());
         }
-        if (hours > 12) {
-            long overTwelveHours = hours - 12;
-            BigDecimal over12HrCharge = stadiumFeeStructure.getBike_range_12_IN()
-                    .multiply(BigDecimal.valueOf(overTwelveHours));
-            parkingFee = parkingFee.add(over12HrCharge);
-        }
-        return parkingFee;
+
+        long overTwelveHours = hours - 12;
+        BigDecimal over12HrCharge = stadiumFeeStructure.getBike_range_12_IN()
+            .multiply(BigDecimal.valueOf(overTwelveHours));
+
+        return over12HrCharge.add(stadiumFeeStructure.getBike_range_00_04())
+            .add(stadiumFeeStructure.getBike_range_04_12());
     }
 
     private BigDecimal carOrSuvFee(long hours) {
-        BigDecimal parkingFee = BigDecimal.ZERO;
         if (hours <= 4) {
-            parkingFee = parkingFee.add(stadiumFeeStructure.getCar_range_00_04());
+            return (stadiumFeeStructure.getCar_range_00_04());
         }
         if (hours <= 12) {
-            parkingFee = parkingFee.add(stadiumFeeStructure.getCar_range_04_12());
+            return stadiumFeeStructure.getCar_range_00_04()
+                .add(stadiumFeeStructure.getCar_range_04_12());
         }
-        if (hours > 12) {
+
             long overTwelveHours = hours - 12;
             BigDecimal over12HrCharge = stadiumFeeStructure.getCar_range_12_IN()
                     .multiply(BigDecimal.valueOf(overTwelveHours));
-            parkingFee = parkingFee.add(over12HrCharge);
-        }
-        return parkingFee;
+        return over12HrCharge.add(stadiumFeeStructure.getCar_range_04_12())
+            .add(stadiumFeeStructure.getCar_range_00_04());
     }
 }
