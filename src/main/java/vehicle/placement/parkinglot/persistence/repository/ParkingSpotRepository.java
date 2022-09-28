@@ -49,6 +49,9 @@ public class ParkingSpotRepository {
 
   private void initialize(Long placeId, ParkingPlaceType placeType, VehicleType vehicleType,
       Long capacity) {
+    if (capacity == null || capacity == 0) {
+      return;
+    }
     for (int i = 1; i <= capacity; i++) {
       String parkingSpotName = String.format(SPOT_NAME_FORMAT, placeId, vehicleType, i);
       var spotEntity = ParkingSpotEntity.builder()
