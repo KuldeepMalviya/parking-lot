@@ -1,15 +1,13 @@
 package vehicle.placement.parkinglot.model;
 
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder
 public class ParkingRecord {
-
     private Long id;
     private Long parkingPlaceId;
     private ParkingPlaceType parkingPlaceType;
@@ -18,5 +16,4 @@ public class ParkingRecord {
     private String vehicleRegistration;
     private LocalDateTime inTime;
     private LocalDateTime outTime;
-
 }
