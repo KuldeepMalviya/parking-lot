@@ -1,13 +1,14 @@
 package vehicle.placement.parkinglot.service;
 
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import vehicle.placement.parkinglot.config.AirPortFeeStructure;
 import vehicle.placement.parkinglot.model.VehicleType;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Component
 @AllArgsConstructor
@@ -19,6 +20,9 @@ public class AirPortParkingFee implements ParkingFeeStrategy {
     public BigDecimal getParkingFeeAmount(VehicleType vehicleType, LocalDateTime inTime, LocalDateTime outTime) {
         long minutes = ChronoUnit.MINUTES.between(inTime, outTime);
         long hours = minutes / 60;
+        if (minutes % 60 != 0) {
+            hours = hours + 1;
+        }
         return switch (vehicleType) {
             case TWO_WHEELER -> twoWheelerFee(hours);
             case CARS -> carOrSuv(hours);
