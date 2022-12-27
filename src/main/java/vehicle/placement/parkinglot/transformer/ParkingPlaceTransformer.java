@@ -2,8 +2,8 @@ package vehicle.placement.parkinglot.transformer;
 
 import vehicle.placement.parkinglot.dto.ParkingPlaceRequestDto;
 import vehicle.placement.parkinglot.dto.ParkingPlaceResponseDto;
-import vehicle.placement.parkinglot.persistence.entity.ParkingPlaceEntity;
 import vehicle.placement.parkinglot.model.ParkingPlace;
+import vehicle.placement.parkinglot.persistence.entity.ParkingPlaceEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +13,7 @@ public final class ParkingPlaceTransformer {
     public static ParkingPlace toParkingPlace(ParkingPlaceRequestDto parkingPlaceRequestDto) {
         return ParkingPlace.builder()
                 .parkingPlaceType(parkingPlaceRequestDto.getParkingPlaceType())
+                .feePolicyType(parkingPlaceRequestDto.getFeePolicyType())
                 .twoWheelerCapacity(parkingPlaceRequestDto.getTwoWheelerCapacity())
                 .busOrTruckCapacity(parkingPlaceRequestDto.getBusTruckCapacity())
                 .carOrSuvCapacity(parkingPlaceRequestDto.getCarOrSuvCapacity())
@@ -23,6 +24,7 @@ public final class ParkingPlaceTransformer {
         return ParkingPlace.builder()
                 .id(placeEntity.getId())
                 .parkingPlaceType(placeEntity.getParkingPlaceType())
+                .feePolicyType(placeEntity.getFeePolicyType())
                 .twoWheelerCapacity(placeEntity.getTwoWheelerCapacity())
                 .busOrTruckCapacity(placeEntity.getBusOrTrucksCapacity())
                 .carOrSuvCapacity(placeEntity.getFourWheelerCapacity())

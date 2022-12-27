@@ -25,6 +25,7 @@ public class ParkingPlaceRepository {
     public ParkingPlace createNewParkingPlace(ParkingPlace parkingPlace) {
         ParkingPlaceEntity savedEntity = parkingPlaceDao.save(ParkingPlaceEntity.builder()
                 .parkingPlaceType(parkingPlace.getParkingPlaceType())
+                .feePolicyType(parkingPlace.getFeePolicyType())
                 .busOrTrucksCapacity(parkingPlace.getBusOrTruckCapacity())
                 .fourWheelerCapacity(parkingPlace.getCarOrSuvCapacity())
                 .TwoWheelerCapacity(parkingPlace.getTwoWheelerCapacity())

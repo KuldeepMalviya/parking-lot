@@ -9,6 +9,7 @@ import lombok.Data;
 public class ParkingPlace {
     private Long id;
     private ParkingPlaceType parkingPlaceType;
+    private FeePolicyType feePolicyType;
     private Long twoWheelerCapacity;
     private Long carOrSuvCapacity;
     private Long busOrTruckCapacity;

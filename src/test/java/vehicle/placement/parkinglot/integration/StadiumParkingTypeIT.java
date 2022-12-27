@@ -12,6 +12,7 @@ import vehicle.placement.parkinglot.controller.ParkVehicleController;
 import vehicle.placement.parkinglot.dto.ParkVehicleRequestDto;
 import vehicle.placement.parkinglot.dto.ParkVehicleResponseDto;
 import vehicle.placement.parkinglot.dto.ParkingReceiptDto;
+import vehicle.placement.parkinglot.model.FeePolicyType;
 import vehicle.placement.parkinglot.model.ParkingPlace;
 import vehicle.placement.parkinglot.model.ParkingPlaceType;
 import vehicle.placement.parkinglot.model.VehicleType;
@@ -35,6 +36,7 @@ public class StadiumParkingTypeIT {
     ParkVehicleController parkVehicleController;
     private ParkingPlace parkingPlace = ParkingPlace.builder()
             .parkingPlaceType(ParkingPlaceType.STADIUM)
+            .feePolicyType(FeePolicyType.STADIUM)
             .twoWheelerCapacity(2L)
             .carOrSuvCapacity(2L)
             .build();

@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import vehicle.placement.parkinglot.dto.ParkVehicleRequestDto;
 import vehicle.placement.parkinglot.exception.VehicleAlreadyUnparkedException;
+import vehicle.placement.parkinglot.model.FeePolicyType;
 import vehicle.placement.parkinglot.model.ParkingReceipt;
 import vehicle.placement.parkinglot.model.ParkingRecord;
 import vehicle.placement.parkinglot.model.ParkingSpot;
+import vehicle.placement.parkinglot.persistence.repository.ParkingPlaceRepository;
 import vehicle.placement.parkinglot.persistence.repository.ParkingReceiptRepository;
 import vehicle.placement.parkinglot.persistence.repository.ParkingRecordRepository;
 import vehicle.placement.parkinglot.persistence.repository.ParkingSpotRepository;
@@ -24,6 +26,7 @@ public class ParkVehicleService {
     public final ParkingRecordRepository parkingRecordRepository;
     private final ParkingReceiptRepository parkingReceiptRepository;
     private final ParkingFeeCalculationService parkingFeeCalculationService;
+    private final ParkingPlaceRepository parkingPlaceRepository;
 
     public ParkingRecord parkVehicle(ParkVehicleRequestDto parkVehicleRequestDto) {
         ParkingSpot freeParkingSpot = parkingSpotRepository
@@ -44,15 +47,19 @@ public class ParkVehicleService {
 
     public ParkingReceipt unParkVehicle(Long parkingRecordId) {
 
-        if(parkingReceiptRepository.isParkingReceiptGeneration(parkingRecordId)) {
+        if (parkingReceiptRepository.isParkingReceiptGeneration(parkingRecordId)) {
             log.info("Parking receipt already generated, parkingRecordId={}", parkingRecordId);
             throw new VehicleAlreadyUnparkedException("Vehicle is already un parked");
         }
 
         var parkingRecord = parkingRecordRepository.updateOutTimeForParkingRecord(parkingRecordId);
+
+        FeePolicyType feePolicyType = parkingPlaceRepository.findParkingPlaceById(parkingRecord.getParkingPlaceId()).getFeePolicyType();
+
         parkingSpotRepository.freeParkingSpotByName(parkingRecord.getParkingSpot());
-        BigDecimal parkingFee = parkingFeeCalculationService.calculateParkingFee(parkingRecord);
-       return parkingReceiptRepository.createParkingReceipt(parkingRecord, parkingFee);
+
+        BigDecimal parkingFee = parkingFeeCalculationService.calculateParkingFee(parkingRecord, feePolicyType);
+        return parkingReceiptRepository.createParkingReceipt(parkingRecord, parkingFee);
     }
 
 }

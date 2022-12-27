@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vehicle.placement.parkinglot.model.FeePolicyType;
 import vehicle.placement.parkinglot.model.ParkingPlaceType;
-
 
 import javax.persistence.*;
 
@@ -19,12 +19,16 @@ import javax.persistence.*;
 public class ParkingPlaceEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PARKING_PLACE_TYPE")
     private ParkingPlaceType parkingPlaceType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "FEE_POLICY_TYPE")
+    private FeePolicyType feePolicyType;
 
     @Column(name = "BIKE_CAPACITY")
     private Long TwoWheelerCapacity;

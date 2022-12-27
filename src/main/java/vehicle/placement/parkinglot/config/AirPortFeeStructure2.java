@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 
 @ConfigurationPropertiesScan
 @Configuration
-@ConfigurationProperties(prefix = "fee.airport")
+@ConfigurationProperties(prefix = "fee.airport2")
 @Data
-public class AirPortFeeStructure {
+public class AirPortFeeStructure2 {
     private BigDecimal bike_range_00_01;
     private BigDecimal bike_range_01_08;
     private BigDecimal bike_range_08_24;
